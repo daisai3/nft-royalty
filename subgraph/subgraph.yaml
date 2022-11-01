@@ -1,0 +1,34 @@
+specVersion: 0.0.4
+description: NFT market for ERC721 tokens on Avalanceh
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: NFTMarketplace
+    network: avalanche
+    source:
+      address: "0x17539cCa21C7933Df5c980172d22659B8C345C5A"
+      abi: NFTMarketplace
+      startBlock: 11352302
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./src/NFTMarketplace.ts
+      entities:
+        - Collection
+        - NFT
+        - ItemListedEvent
+        - ItemCancelledEvent
+        - ItemBoughtEvent
+        - User
+      abis:
+        - name: NFTMarketplace
+          file: ./abis/NFTMarketplace.json
+      eventHandlers:
+        - event: ItemListed(indexed address,indexed address,indexed uint256,uint256,uint256)
+          handler: handleItemListed
+        - event: ItemCancelled(indexed address,indexed address,indexed uint256,uint256)
+          handler: handleItemCancelled
+        - event: ItemBought(indexed address,indexed address,indexed address,uint256,uint256,uint256)
+          handler: handleItemBought

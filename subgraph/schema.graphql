@@ -1,0 +1,80 @@
+type Collection @entity {
+  "ID (address)"
+  id: ID!
+  "List of NFTs"
+  nfts: [NFT!]! @derivedFrom(field: "collection")
+}
+
+type NFT @entity {
+  "CollectionAddress + tokenId"
+  id: ID!
+  "Collection address"
+  collection: Collection!
+  "tokenId"
+  tokenId: BigInt!
+  "Current seller"
+  currentSeller: User!
+  "Listed price"
+  listedPrice: BigDecimal!
+  "Last sold price"
+  lastSoldPrice: BigDecimal!
+  "Last list timestamp"
+  lastListedTimestamp: BigInt!
+  "Last sold timestamp"
+  lastSoldTimestamp: BigInt!
+}
+
+type ItemListedEvent @entity {
+  id: ID!
+  "Collection address"
+  collection: Collection!
+  "tokenId"
+  tokenId: BigInt!
+  "Seller"
+  seller: User!
+  "Listed Price (in PayToken)"
+  price: BigDecimal!
+  "Timestamp"
+  timestamp: BigInt!
+}
+
+type ItemCancelledEvent @entity {
+  id: ID!
+  "Collection address"
+  collection: Collection!
+  "tokenId"
+  tokenId: BigInt!
+  "Seller"
+  seller: User!
+  "Timestamp"
+  timestamp: BigInt!
+}
+
+type ItemBoughtEvent @entity {
+  id: ID!
+  "Collection address"
+  collection: Collection!
+  "tokenId"
+  tokenId: BigInt!
+  "Seller"
+  seller: User!
+  "Buyer"
+  buyer: User!
+  "Listed Price (in PayToken)"
+  price: BigDecimal!
+  "Timestamp"
+  timestamp: BigInt!
+}
+
+type User @entity {
+  "User address"
+  id: ID!
+  "Number of tokens currently listed"
+  numberTokensListed: BigInt!
+  "Number of tokens bought"
+  numberTokensBought: BigInt!
+  "Transactions buy"
+  buyTradeHistory: [ItemBoughtEvent!]! @derivedFrom(field: "buyer")
+  "Transactions sold"
+  sellTradeHistory: [ItemListedEvent!]! @derivedFrom(field: "seller")
+}

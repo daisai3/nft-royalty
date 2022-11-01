@@ -1,0 +1,13 @@
+.idea/*
+.DS_Store
+build/*
+node_modules
+types
+contract/keys.json
+.env
+prod-master-keys.ts
+test-master-keys.ts
+non-truffle-scripts/backups/*
+subgraph/build
+subgraph/node_modules
+subgraph/generated
